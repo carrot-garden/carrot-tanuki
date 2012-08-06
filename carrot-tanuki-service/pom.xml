@@ -31,7 +31,7 @@
 
 	<properties>
 
-		<templateVersion>3.5.15-build000-SNAPSHOT</templateVersion>
+		<templateVersion>3.5.15-build000</templateVersion>
 
 		<javaCommand>java</javaCommand>
 
