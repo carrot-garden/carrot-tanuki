@@ -32,7 +32,7 @@
 
 	<properties>
 
-		<templateVersion>3.5.15-build000</templateVersion>
+		<templateVersion>3.5.15-build001</templateVersion>
 
 		<javaCommand>java</javaCommand>
 
