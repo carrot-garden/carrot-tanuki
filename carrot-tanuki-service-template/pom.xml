@@ -15,7 +15,7 @@
 		it will be used as ${distroVersion} for tanuki download -->
 	<groupId>com.carrotgarden.tanuki</groupId>
 	<artifactId>carrot-tanuki-service-template</artifactId>
-	<version>3.5.15-build008-SNAPSHOT</version>
+	<version>3.5.15-build000-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<scm>
