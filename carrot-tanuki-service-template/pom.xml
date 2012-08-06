@@ -13,7 +13,7 @@
 
 	<!-- note: use original tanuki version as the first maven version term; 
 		it will be used as ${distroVersion} for tanuki download -->
-	<groupId>com.carrot.tanuki</groupId>
+	<groupId>com.carrotgarden.tanuki</groupId>
 	<artifactId>carrot-tanuki-service-template</artifactId>
 	<version>3.5.15-build002-SNAPSHOT</version>
 	<packaging>jar</packaging>

@@ -15,8 +15,8 @@
 	<parent>
 		<groupId>com.carrotgarden.tanuki</groupId>
 		<artifactId>carrot-tanuki-service</artifactId>
-		<!-- project version will be substituted by the maven-invoker-plugin -->
-		<version>@project.version@</version>
+		<!-- project version currently in development -->
+		<version>1.0.3-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.carrotgarden.int</groupId>
