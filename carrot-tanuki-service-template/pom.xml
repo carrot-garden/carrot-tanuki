@@ -7,8 +7,7 @@
     http://www.opensource.org/licenses/bsd-license.php
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -22,14 +21,15 @@
 		it will be used as ${distroVersion} for tanuki download -->
 	<groupId>com.carrot.tanuki</groupId>
 	<artifactId>carrot-tanuki-service-template</artifactId>
-	<version>3.5.15-build000-SNAPSHOT</version>
+	<version>3.5.15-build000</version>
 	<packaging>jar</packaging>
 
 	<scm>
 		<url>https://github.com/carrot-garden/carrot-tanuki</url>
 		<connection>scm:git:git://github.com/carrot-garden/carrot-tanuki.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/carrot-garden/carrot-tanuki.git</developerConnection>
-	</scm>
+	  <tag>carrot-tanuki-service-template-3.5.15-build000</tag>
+  </scm>
 
 	<description>folder layout for java-service-wrapper based applications</description>
 
