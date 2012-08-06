@@ -54,7 +54,7 @@
 				<executions>
 					<execution>
 						<id>tanuki-version</id>
-						<phase>validate</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>execute</goal>
 						</goals>
@@ -78,11 +78,10 @@
 				<!-- http://site.kuali.org/maven/plugins/wagon-maven-plugin/1.0.0/plugin-info.html -->
 				<groupId>org.kuali.maven.plugins</groupId>
 				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0.3</version>
 				<executions>
 					<execution>
 						<id>download-distro</id>
-						<phase>validate</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>download-single</goal>
 						</goals>
@@ -103,7 +102,7 @@
 				<executions>
 					<execution>
 						<id>unpack-distro</id>
-						<phase>validate</phase>
+						<phase>prepare-package</phase>
 						<configuration>
 							<target>
 
@@ -154,7 +153,7 @@
 				<executions>
 					<execution>
 						<id>add-resource</id>
-						<phase>validate</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>add-resource</goal>
 						</goals>
@@ -173,8 +172,6 @@
 
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
