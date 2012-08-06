@@ -15,14 +15,14 @@
 		it will be used as ${distroVersion} for tanuki download -->
 	<groupId>com.carrotgarden.tanuki</groupId>
 	<artifactId>carrot-tanuki-service-template</artifactId>
-	<version>3.5.15-build003-SNAPSHOT</version>
+	<version>3.5.15-build003</version>
 	<packaging>jar</packaging>
 
 	<scm>
 		<url>https://github.com/carrot-garden/carrot-tanuki</url>
 		<connection>scm:git:git://github.com/carrot-garden/carrot-tanuki.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/carrot-garden/carrot-tanuki.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>carrot-tanuki-service-template-3.5.15-build003</tag>
 	</scm>
 
 	<description>folder layout for java-service-wrapper based applications</description>
