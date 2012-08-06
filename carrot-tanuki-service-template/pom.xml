@@ -1,0 +1,226 @@
+<!--
+
+    Copyright (C) 2010-2012 Andrei Pozolotin <Andrei.Pozolotin@gmail.com>
+
+    All rights reserved. Licensed under the OSI BSD License.
+
+    http://www.opensource.org/licenses/bsd-license.php
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.carrotgarden.base</groupId>
+		<artifactId>carrot-archon</artifactId>
+		<version>1.2.1</version>
+	</parent>
+
+	<!-- note: use original tanuki version as the first maven version term; 
+		it will be used as ${distroVersion} for tanuki download -->
+	<groupId>com.carrot.tanuki</groupId>
+	<artifactId>carrot-tanuki-service-template</artifactId>
+	<version>3.5.15-build000-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<scm>
+		<url>https://github.com/carrot-garden/carrot-tanuki</url>
+		<connection>scm:git:git://github.com/carrot-garden/carrot-tanuki.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/carrot-garden/carrot-tanuki.git</developerConnection>
+	</scm>
+
+	<description>folder layout for java-service-wrapper based applications</description>
+
+	<properties>
+
+		<!-- http://wrapper.tanukisoftware.com/doc/english/download.jsp -->
+		<!-- ${distroVersion} is set by parser invocation -->
+		<distroURL>http://wrapper.tanukisoftware.com/download/${distroVersion}</distroURL>
+		<distroName>wrapper-delta-pack-${distroVersion}</distroName>
+		<distroFile>${distroName}.tar.gz</distroFile>
+
+		<distroSource>${basedir}/target/${distroName}</distroSource>
+		<distroTarget>${basedir}/target/wrapper-template</distroTarget>
+
+		<!-- use for faster testing -->
+		<skip-distro-download>false</skip-distro-download>
+
+	</properties>
+
+	<build>
+
+		<plugins>
+
+			<!-- parse tanuki ${distroVersion} from ${project.version} -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>groovy-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>tanuki-version</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<source>
+				<![CDATA[
+				//
+				distroVersion = project.version.split("-")[0];
+				project.properties["distroVersion"] = distroVersion;
+				println("### distroVersion=" + distroVersion);
+				//
+				]]>
+							</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- download tanuki distro -->
+			<plugin>
+				<!-- http://site.kuali.org/maven/plugins/wagon-maven-plugin/1.0.0/plugin-info.html -->
+				<groupId>org.kuali.maven.plugins</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0.3</version>
+				<executions>
+					<execution>
+						<id>download-distro</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>download-single</goal>
+						</goals>
+						<configuration>
+							<url>${distroURL}</url>
+							<fromFile>${distroFile}</fromFile>
+							<toDir>target</toDir>
+							<skip>${skip-distro-download}</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- unpack and copy tanuki distro -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack-distro</id>
+						<phase>validate</phase>
+						<configuration>
+							<target>
+
+								<gunzip src="${distroSource}.tar.gz" dest="${distroSource}.tar" />
+
+								<untar src="${distroSource}.tar" dest="${basedir}/target" />
+
+								<copy todir="${distroTarget}/bin" overwrite="true">
+									<fileset dir="${distroSource}/bin">
+										<include name="wrapper-*" />
+										<exclude name="*.bin" />
+										<exclude name="*.dll" />
+										<exclude name="*.exe" />
+										<exclude name="*.jar" />
+									</fileset>
+									<mapper type="glob" from="*" to="*.bin" />
+								</copy>
+
+								<copy todir="${distroTarget}/bin" overwrite="true">
+									<fileset dir="${distroSource}/bin">
+										<include name="wrapper-*.exe" />
+									</fileset>
+									<fileset dir="${distroSource}/lib">
+										<include name="libwrapper-*" />
+										<include name="wrapper-*.dll" />
+									</fileset>
+								</copy>
+
+								<copy todir="${distroTarget}/lib" overwrite="true">
+									<fileset dir="${distroSource}/lib">
+										<include name="wrapper.jar" />
+									</fileset>
+								</copy>
+
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- attach distro template to final jar -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-resource</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${distroTarget}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-antrun-plugin</artifactId>
+										<versionRange>[0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.kuali.maven.plugins</groupId>
+										<artifactId>wagon-maven-plugin</artifactId>
+										<versionRange>[0,)</versionRange>
+										<goals>
+											<goal>download-single</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
+
+</project>

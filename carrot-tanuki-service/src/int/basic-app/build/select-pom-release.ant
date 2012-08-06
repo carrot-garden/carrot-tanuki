@@ -1,0 +1,23 @@
+<!--
+
+    Copyright (C) 2010-2012 Andrei Pozolotin <Andrei.Pozolotin@gmail.com>
+
+    All rights reserved. Licensed under the OSI BSD License.
+
+    http://www.opensource.org/licenses/bsd-license.php
+
+-->
+<project default="select" basedir="./..">
+
+	<echo message="basedir : ${basedir}" />
+
+	<target name="select">
+
+		<copy file="pom-template.xml" tofile="pom.xml" overwrite="true" />
+
+		<replace file="pom.xml" token="@version.comment@" value="project version will be substituted by the maven-invoker-plugin" />
+		<replace file="pom.xml" token="@version.value@" value="@project.version@" />
+
+	</target>
+
+</project>

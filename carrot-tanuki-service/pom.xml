@@ -1,0 +1,442 @@
+<!--
+
+    Copyright (C) 2010-2012 Andrei Pozolotin <Andrei.Pozolotin@gmail.com>
+
+    All rights reserved. Licensed under the OSI BSD License.
+
+    http://www.opensource.org/licenses/bsd-license.php
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.carrotgarden.base</groupId>
+		<artifactId>carrot-archon</artifactId>
+		<version>1.2.1</version>
+		<relativePath />
+	</parent>
+
+	<groupId>com.carrotgarden.tanuki</groupId>
+	<artifactId>carrot-tanuki-service</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<scm>
+		<url>https://github.com/carrot-garden/carrot-tanuki</url>
+		<connection>scm:git:git://github.com/carrot-garden/carrot-tanuki.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/carrot-garden/carrot-tanuki.git</developerConnection>
+	</scm>
+
+	<properties>
+
+		<templateVersion>3.5.15-build000-SNAPSHOT</templateVersion>
+
+		<javaCommand>java</javaCommand>
+
+		<javaParameter0 />
+		<javaParameter1 />
+		<javaParameter2 />
+		<javaParameter3 />
+		<javaParameter4 />
+		<javaParameter5 />
+		<javaParameter6 />
+		<javaParameter7 />
+		<javaParameter8 />
+		<javaParameter9 />
+		<javaParameter10 />
+		<javaParameter11 />
+		<javaParameter12 />
+		<javaParameter13 />
+		<javaParameter14 />
+		<javaParameter15 />
+		<javaParameter16 />
+		<javaParameter17 />
+		<javaParameter18 />
+		<javaParameter19 />
+		<javaParameter20 />
+		<javaParameter21 />
+		<javaParameter22 />
+		<javaParameter23 />
+		<javaParameter24 />
+
+		<mainClass>bada-boom</mainClass>
+
+		<mainParameter0 />
+		<mainParameter1 />
+		<mainParameter2 />
+		<mainParameter3 />
+		<mainParameter4 />
+		<mainParameter5 />
+		<mainParameter6 />
+		<mainParameter7 />
+		<mainParameter8 />
+		<mainParameter9 />
+		<mainParameter10 />
+		<mainParameter11 />
+		<mainParameter12 />
+		<mainParameter13 />
+		<mainParameter14 />
+		<mainParameter15 />
+		<mainParameter16 />
+		<mainParameter17 />
+		<mainParameter18 />
+		<mainParameter19 />
+		<mainParameter20 />
+		<mainParameter21 />
+		<mainParameter22 />
+		<mainParameter23 />
+		<mainParameter24 />
+
+		<serviceUsername>${user.name}</serviceUsername>
+		<servicePassword />
+
+		<appFolderName>app</appFolderName>
+		<libFolderName>lib</libFolderName>
+
+		<serviceName>${project.name}_${project.version}_${timestamp}</serviceName>
+
+		<targdir>${project.build.directory}</targdir>
+		<appFolderNameTemplate>${appFolderName}_template</appFolderNameTemplate>
+		<appFolderNameTimestamp>${appFolderName}_${timestamp}</appFolderNameTimestamp>
+		<appFolderSource>${basedir}/${appFolderName}</appFolderSource>
+		<appFolderTemplate>${targdir}/${appFolderNameTemplate}</appFolderTemplate>
+		<appFolderTarget>${targdir}/${appFolderNameTimestamp}</appFolderTarget>
+		<libFolderTarget>${appFolderTarget}/${libFolderName}</libFolderTarget>
+
+		<mavenStamp>ARTIFACT=${project.artifactId}.VERSION=${project.version}.TIMESTAMP=${timestamp}</mavenStamp>
+
+		<timestamp>${carrotTimeFile}</timestamp>
+
+		<application-copy-dependencies-phase>package</application-copy-dependencies-phase>
+
+		<assembly-name>tanuki-distro</assembly-name>
+
+	</properties>
+
+	<profiles>
+
+		<!-- build service-based application -->
+		<profile>
+			<id>application</id>
+			<activation>
+				<file>
+					<missing>carrot-tanuki-service.md</missing>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+
+					<!-- download template and dependencies -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<!-- unpack application template -->
+							<execution>
+								<id>unpack-application-template</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>com.carrot.tanuki</groupId>
+											<artifactId>carrot-tanuki-service-template</artifactId>
+											<version>${templateVersion}</version>
+											<type>jar</type>
+										</artifactItem>
+									</artifactItems>
+									<outputDirectory>${appFolderTemplate}</outputDirectory>
+								</configuration>
+							</execution>
+							<!-- copy dependency libraries -->
+							<execution>
+								<id>copy-dependency-libraries</id>
+								<phase>${application-copy-dependencies-phase}</phase>
+								<goals>
+									<goal>copy-dependencies</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${libFolderTarget}</outputDirectory>
+									<overWriteReleases>true</overWriteReleases>
+									<overWriteSnapshots>true</overWriteSnapshots>
+									<overWriteIfNewer>true</overWriteIfNewer>
+									<includeScope>runtime</includeScope>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- copy template and resources -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-resources-plugin</artifactId>
+						<executions>
+							<!-- copy application template -->
+							<execution>
+								<id>copy-application-template</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<includeEmptyDirs>true</includeEmptyDirs>
+									<resources>
+										<resource>
+											<filtering>false</filtering>
+											<directory>${appFolderTemplate}</directory>
+										</resource>
+										<resource>
+											<filtering>true</filtering>
+											<directory>${appFolderTemplate}</directory>
+											<includes>
+												<path>**/*.sh</path>
+												<path>**/*.bat</path>
+												<path>**/*.properties</path>
+											</includes>
+										</resource>
+									</resources>
+									<outputDirectory>${appFolderTarget}</outputDirectory>
+								</configuration>
+							</execution>
+							<!-- copy application resources -->
+							<execution>
+								<id>copy-application-resources</id>
+								<phase>package</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<overwrite>true</overwrite>
+									<includeEmptyDirs>true</includeEmptyDirs>
+									<resources>
+										<resource>
+											<filtering>false</filtering>
+											<directory>${appFolderSource}</directory>
+										</resource>
+										<resource>
+											<filtering>true</filtering>
+											<directory>${appFolderSource}</directory>
+											<includes>
+												<path>**/*.sh</path>
+												<path>**/*.bat</path>
+												<path>**/*.cfg</path>
+												<path>**/*.properties</path>
+											</includes>
+										</resource>
+									</resources>
+									<outputDirectory>${appFolderTarget}</outputDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- set unix file permissions for testing -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>mark-executable-files</id>
+								<phase>package</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<target>
+										<echo message="setting file permissions" />
+										<chmod dir="${appFolderTarget}" perm="ugo+rx" includes="**/*.sh,**/*.bin" />
+									</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- make distro archive -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<dependencies>
+							<dependency>
+								<groupId>com.carrot.tanuki</groupId>
+								<artifactId>carrot-tanuki-service-template</artifactId>
+								<version>${templateVersion}</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<id>make-tanuki-distro</id>
+								<phase>package</phase>
+								<goals>
+									<goal>single</goal>
+								</goals>
+								<configuration>
+									<descriptorRefs>
+										<descriptorRef>${assembly-name}</descriptorRef>
+									</descriptorRefs>
+									<outputDirectory>target</outputDirectory>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- make links to ease testing -->
+					<plugin>
+						<groupId>com.pyx4j</groupId>
+						<artifactId>maven-junction-plugin</artifactId>
+						<version>1.0.3</version>
+						<configuration>
+							<links>
+								<link>
+									<src>${appFolderTarget}/nix-restart.sh</src>
+									<dst>${basedir}/target/@nix-restart.sh</dst>
+								</link>
+								<link>
+									<src>${appFolderTarget}/nix-start.sh</src>
+									<dst>${basedir}/target/@nix-start.sh</dst>
+								</link>
+								<link>
+									<src>${appFolderTarget}/nix-stop.sh</src>
+									<dst>${basedir}/target/@nix-stop.sh</dst>
+								</link>
+								<link>
+									<src>${appFolderTarget}/conf</src>
+									<dst>${basedir}/target/@conf</dst>
+								</link>
+								<link>
+									<src>${appFolderTarget}/etc</src>
+									<dst>${basedir}/target/@etc</dst>
+								</link>
+								<link>
+									<src>${appFolderTarget}/lib</src>
+									<dst>${basedir}/target/@lib</dst>
+								</link>
+								<link>
+									<src>${appFolderTarget}/log</src>
+									<dst>${basedir}/target/@log</dst>
+								</link>
+							</links>
+						</configuration>
+						<executions>
+							<execution>
+								<id>unlink</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>unlink</goal>
+								</goals>
+							</execution>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>link</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+				</plugins>
+			</build>
+
+		</profile>
+
+		<profile>
+			<id>integration</id>
+			<activation>
+				<file>
+					<exists>carrot-tanuki-service.md</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-invoker-plugin</artifactId>
+						<version>1.6</version>
+						<configuration>
+							<debug>false</debug>
+							<ignoreFailures>false</ignoreFailures>
+							<projectsDirectory>src/int</projectsDirectory>
+							<cloneProjectsTo>target/int-work</cloneProjectsTo>
+							<invokerPropertiesFile>invoker.properties</invokerPropertiesFile>
+							<pomIncludes>
+								<include>basic/pom.xml</include>
+							</pomIncludes>
+							<goals>
+								<!-- goals for child maven invocation -->
+								<goal>clean</goal>
+								<goal>install</goal>
+							</goals>
+						</configuration>
+						<executions>
+							<execution>
+								<id>integration-test</id>
+								<phase>package</phase>
+								<goals>
+									<!-- goals for parent maven invocation -->
+									<goal>install</goal>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[0,)</versionRange>
+										<goals>
+											<goal>copy-dependencies</goal>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-resources-plugin</artifactId>
+										<versionRange>[0,)</versionRange>
+										<goals>
+											<goal>copy-resources</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+	</build>
+
+</project>
