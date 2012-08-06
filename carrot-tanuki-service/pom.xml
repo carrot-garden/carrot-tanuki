@@ -20,19 +20,18 @@
 
 	<groupId>com.carrotgarden.tanuki</groupId>
 	<artifactId>carrot-tanuki-service</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<scm>
 		<url>https://github.com/carrot-garden/carrot-tanuki</url>
 		<connection>scm:git:git://github.com/carrot-garden/carrot-tanuki.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/carrot-garden/carrot-tanuki.git</developerConnection>
-	  <tag>HEAD</tag>
   </scm>
 
 	<properties>
 
-		<templateVersion>3.5.15-build003</templateVersion>
+		<templateVersion>3.5.15-build000</templateVersion>
 
 		<javaCommand>java</javaCommand>
 
