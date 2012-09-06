@@ -39,8 +39,8 @@
 		<fileSet>
 
 			<directory>${appFolderTarget}</directory>
-			<directoryMode>0755</directoryMode>
-			<fileMode>0644</fileMode>
+			<directoryMode>6770</directoryMode>
+			<fileMode>0660</fileMode>
 
 			<excludes>
 
@@ -68,8 +68,8 @@
 		<fileSet>
 
 			<directory>${appFolderTarget}</directory>
-			<directoryMode>0755</directoryMode>
-			<fileMode>0755</fileMode>
+			<directoryMode>6770</directoryMode>
+			<fileMode>0770</fileMode>
 
 			<includes>
 				<!-- setup permissions inside archive -->
